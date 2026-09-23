@@ -146,6 +146,26 @@ def count_long_movies(movies, threshold=120):
     return count
 
 
+def normalize_title(title):
+    words = []
+    for word in title.split():
+        words.append(word[0].upper() + word[1:])
+    return " ".join(words)
+
+
+def make_slug(title):
+    return title.lower().replace(" ", "-")
+
+
+def format_report_line(movie):
+    title = normalize_title(movie["title"])
+    year = movie["year"]
+    rating = movie["rating"]
+    duration = duration_in_hours(movie["duration_min"])
+    genres = ", ".join(sorted(movie["genres"]))
+    return f'"{title}" ({year}) — {rating}/10, {duration}, жанры: {genres}'
+
+
 def main():
     print("Hello from dz-catalog-analysis-chalapov-m26-555!")
 
