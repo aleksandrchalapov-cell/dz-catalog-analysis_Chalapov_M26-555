@@ -166,6 +166,16 @@ def format_report_line(movie):
     return f'"{title}" ({year}) — {rating}/10, {duration}, жанры: {genres}'
 
 
+def titles_sorted_by_rating(movies):
+    ranked = sorted(movies, key=lambda movie: movie["rating"], reverse=True)
+    return [movie["title"] for movie in ranked]
+
+
+def top_n_by_rating(movies, n=3):
+    ranked = sorted(movies, key=lambda movie: movie["rating"], reverse=True)
+    return [(movie["title"], movie["rating"]) for movie in ranked[:n]]
+
+
 def main():
     print("Hello from dz-catalog-analysis-chalapov-m26-555!")
 
