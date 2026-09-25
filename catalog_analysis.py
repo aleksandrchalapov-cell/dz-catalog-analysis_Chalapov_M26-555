@@ -229,9 +229,28 @@ def total_duration_above(movies, threshold=7):
     return sum(movie["duration_min"] for movie in movies if movie["rating"] > threshold)
 
 
-def main():
-    print("Hello from dz-catalog-analysis-chalapov-m26-555!")
+def build_report(movies):
+    _, _, avg_age = catalog_age_stats(movies)
+    print("ОТЧЕТ ПО КАТАЛОГУ")
+    print(f"Средний рейтинг: {average_rating(movies)}")
+    print(f"Средний возраст фильмов: {avg_age} лет")
+    print()
+
+    print("Топ-3 фильма:")
+    by_title = {movie["title"]: movie for movie in movies}
+    for title, rating in top_n_by_rating(movies, 3):
+        print(f"  {format_report_line(by_title[title])}")
+    print()
+
+    print("Фильмов по жанрам:")
+    counts = count_by_genre(movies)
+    for genre, count in sorted(counts.items(), key=lambda item: (-item[1], item[0])):
+        print(f"  {genre} — {count}")
+    print()
+
+    genres_line = ", ".join(sorted(all_genres(movies)))
+    print(f"Все жанры каталога: {genres_line}")
 
 
 if __name__ == "__main__":
-    main()
+    build_report(movies)
